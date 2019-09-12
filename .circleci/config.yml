@@ -1,0 +1,35 @@
+version: 2.1
+
+jobs:
+  build:
+    machine:
+      image: ubuntu-1604:201903-01
+    environment:
+      JAVA_OPTS: -Xmx3200m
+    working_directory: ~/workdir
+    steps:
+    - checkout
+    - run:
+        name: Build
+        command: |
+          export TERM="xterm"
+          # Install CLI
+          curl -L https://github.com/codacy/codacy-analysis-cli/archive/master.tar.gz | tar xvz
+          cd codacy-analysis-cli-* && sudo make install
+          rm -rf codacy-analysis-cli-master
+          # Build
+          cd ~/workdir/test-app-gradle
+          ./gradlew build
+          cd ~/workdir/test-app-maven
+          mvn compile
+          cd ~/workdir/test-app-sbt
+          sbt compile
+          cd ~/workdir
+          # Run CLI
+          codacy-analysis-cli analyse --directory $PWD --project-token $PROJECT_TOKEN --allow-network --codacy-api-base-url $API_BASE_URL --upload --verbose
+
+workflows:
+  version: 2
+  build:
+    jobs:
+    - build

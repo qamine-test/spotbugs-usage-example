@@ -1,0 +1,9 @@
+/test-app-gradle/build
+/test-app-gradle/.gradle
+/test-app-maven/target
+/test-app-sbt/target
+/test-app-sbt/project/target
+
+.metals
+.bloop
+.idea
