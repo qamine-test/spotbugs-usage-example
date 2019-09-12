@@ -12,6 +12,8 @@ public class JdbcDriverConnection {
     private static final String MYSQL_PASSWORD = "h4rDc0de";
 
     public static void connectionWithHardCodePassword1() throws SQLException {
+        String foo = "bla";
+        foo = foo = "stuff";
         //#Err: HARD_CODE_PASSWORD
         Connection conn = DriverManager.getConnection("jdbc:mysql://prod.company.com/production", "root", "lamepassword");
     }

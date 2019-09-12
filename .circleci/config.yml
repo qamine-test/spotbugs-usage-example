@@ -15,8 +15,10 @@ jobs:
           export TERM="xterm"
           # Install CLI
           curl -L https://github.com/codacy/codacy-analysis-cli/archive/master.tar.gz | tar xvz
-          cd codacy-analysis-cli-* && sudo make install
-          rm -rf codacy-analysis-cli-master
+          cd codacy-analysis-cli-*
+          sudo make install
+          cd ~/workdir
+          rm -rf ~/workdir/codacy-analysis-cli-master
           # Build
           cd ~/workdir/test-app-gradle
           ./gradlew build
@@ -24,8 +26,8 @@ jobs:
           mvn compile
           cd ~/workdir/test-app-sbt
           sbt compile
-          cd ~/workdir
           # Run CLI
+          cd ~/workdir
           codacy-analysis-cli analyse --directory $PWD --project-token $PROJECT_TOKEN --allow-network --codacy-api-base-url $API_BASE_URL --upload --verbose
 
 workflows:
